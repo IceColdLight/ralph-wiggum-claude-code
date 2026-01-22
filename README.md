@@ -2,7 +2,26 @@
 
 An implementation of [Geoffrey Huntley's Ralph Wiggum technique](https://ghuntley.com/ralph/) for **Claude Code CLI**, enabling autonomous AI development with deliberate context management.
 
-Forked from [agrimsingh/ralph-wiggum-cursor](https://github.com/agrimsingh/ralph-wiggum-cursor) and adapted for Claude Code with additional features:
+Forked from [agrimsingh/ralph-wiggum-cursor](https://github.com/agrimsingh/ralph-wiggum-cursor) and adapted for Claude Code with additional features.
+
+## Table of Contents
+
+- [What is Ralph?](#what-is-ralph)
+- [Quick Install](#quick-install)
+- [Prerequisites](#prerequisites)
+- [Quick Start](#quick-start)
+- [Commands](#commands)
+- [Task Chaining](#task-chaining)
+- [Quality Checks (QC)](#quality-checks-qc)
+- [Command Shims](#command-shims)
+- [Watchdog](#watchdog)
+- [File Reference](#file-reference)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [Workflows](#workflows)
+- [Credits](#credits)
+
+---
 
 - **Quality Checks (QC)**: Verification pass after each task to ensure criteria are actually implemented
 - **Task Linking**: Chain multiple tasks via `next_task` frontmatter for complex workflows
@@ -73,19 +92,6 @@ Ralph's solution: Deliberately rotate to fresh context before pollution builds u
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Key Features
-
-- **Quality Checks (QC)** - After all criteria are checked, a separate QC agent verifies each was actually implemented
-- **Task Chaining** - Define `next_task: filename.md` in frontmatter to chain multiple tasks
-- **Interactive setup** - Beautiful gum-based UI for model selection and options
-- **Accurate token tracking** - Parser counts actual API-reported tokens
-- **Gutter detection** - Detects when agent is stuck (same command failed 3x, file thrashing)
-- **Watchdog** - Kills blocking interactive processes (npm init, python REPL, etc.)
-- **Command shims** - Prevents interactive commands from hanging the loop
-- **Learning from failures** - Agent updates `.ralph/state/guardrails.md` with lessons
-- **State in git** - Commits frequently so next agent picks up from git history
-- **Branch/PR workflow** - Optionally work on a branch and open PR when complete
-
 ## Quick Install
 
 ```bash
@@ -106,51 +112,6 @@ curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-co
 | Claude CLI | `which claude` | `npm install -g @anthropic-ai/claude-code` |
 | jq | `which jq` | `apt install jq` / `brew install jq` |
 | gum (optional) | `which gum` | `brew install gum` or [see installation](https://github.com/charmbracelet/gum#installation) |
-
-## Installation
-
-### Option 1: Copy Scripts Directly
-
-```bash
-# Clone this repo
-git clone https://github.com/IceColdLight/ralph-wiggum-claude-code.git
-
-# Copy to your project
-cp -r ralph-wiggum-claude-code/scripts your-project/.ralph/scripts
-chmod +x your-project/.ralph/scripts/*.sh
-chmod +x your-project/.ralph/scripts/shims/*
-
-# Initialize
-cd your-project
-./.ralph/scripts/init-ralph.sh
-```
-
-### Option 2: Manual Setup
-
-```bash
-cd your-project
-mkdir -p .ralph/scripts .ralph/state .ralph/tasks
-
-# Download scripts
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/ralph-common.sh -o .ralph/scripts/ralph-common.sh
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/ralph-setup.sh -o .ralph/scripts/ralph-setup.sh
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/ralph-loop.sh -o .ralph/scripts/ralph-loop.sh
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/ralph-once.sh -o .ralph/scripts/ralph-once.sh
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/stream-parser.sh -o .ralph/scripts/stream-parser.sh
-curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/init-ralph.sh -o .ralph/scripts/init-ralph.sh
-
-# Download shims
-mkdir -p .ralph/scripts/shims
-for shim in git node npm python python3; do
-  curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/scripts/shims/$shim -o .ralph/scripts/shims/$shim
-done
-
-# Make executable
-chmod +x .ralph/scripts/*.sh .ralph/scripts/shims/*
-
-# Initialize
-./.ralph/scripts/init-ralph.sh
-```
 
 ## Quick Start
 
