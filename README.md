@@ -86,6 +86,18 @@ Ralph's solution: Deliberately rotate to fresh context before pollution builds u
 - **State in git** - Commits frequently so next agent picks up from git history
 - **Branch/PR workflow** - Optionally work on a branch and open PR when complete
 
+## Quick Install
+
+```bash
+cd your-project
+curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/install.sh | bash
+```
+
+With automatic gum installation (for enhanced UI):
+```bash
+curl -fsSL https://raw.githubusercontent.com/IceColdLight/ralph-wiggum-claude-code/main/install.sh | INSTALL_GUM=1 bash
+```
+
 ## Prerequisites
 
 | Requirement | Check | How to Install |
